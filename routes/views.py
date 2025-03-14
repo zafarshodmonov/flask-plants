@@ -1,25 +1,11 @@
-from flask import render_template, Blueprint
-from models import Plant
-from app import db
+from flask import Blueprint, render_template
 
-routes = Blueprint("routes", __name__)
+main = Blueprint('main', __name__)
 
-@routes.route("/")
+@main.route('/')
 def home():
-    plants = Plant.query.all()
-    return render_template("index.html", plants=plants)
+    return render_template('index.html')
 
-@routes.route('/add_plant', methods=['POST'])
-def add_plant():
-    from flask import request, redirect, url_for
-    from models.plant import Plant
-    
-    name_id = request.form.get('name_id')
-    data = request.form.get('data')
-    
-    new_plant = Plant(name_id=name_id, data=data)
-    from app import db
-    db.session.add(new_plant)
-    db.session.commit()
-    
-    return redirect(url_for('routes.get_plants'))
+@main.route('/contact')
+def contact():
+    return "Contact Page"

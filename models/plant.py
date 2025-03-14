@@ -1,4 +1,4 @@
-from app import db
+from models.database import db
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)

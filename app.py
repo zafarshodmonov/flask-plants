@@ -1,20 +1,19 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import os
+from models.database import db
+from routes import register_blueprints
+from config import Config
 
-# Initialize the app
+config_object = Config()
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///plants.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = config_object.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config_object.SQLALCHEMY_TRACK_MODIFICATIONS
 
-# Initialize the database
-from database import db
-
+# Ma'lumotlar bazasini boshlash
 db.init_app(app)
 
-# # Import routes after db initialization to prevent circular imports
-# from routes import main as main_blueprint
-# app.register_blueprint(main)
+# Blueprint'larni registratsiya qilish
+register_blueprints(app)
 
 if __name__ == '__main__':
     app.run(debug=True)
